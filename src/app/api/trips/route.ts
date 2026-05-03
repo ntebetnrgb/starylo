@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
@@ -45,9 +46,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
+    // SQLite doesn't support insensitive mode; use basic contains
     const city = await prisma.city.findFirst({
-      where: { name: { contains: destination, mode: "insensitive" } },
+      where: { name: { contains: destination } },
     });
+
+    const styleIds: { travelStyleId: string }[] = [];
+    if (styles?.length) {
+      for (const name of styles as string[]) {
+        const ts = await prisma.travelStyle.findUnique({ where: { name } });
+        if (ts) styleIds.push({ travelStyleId: ts.id });
+      }
+    }
 
     const trip = await prisma.trip.create({
       data: {
@@ -59,16 +69,7 @@ export async function POST(req: NextRequest) {
         budget: budget ?? "mid-range",
         spotsTotal: spotsTotal ?? 4,
         cityId: city?.id,
-        styles: styles?.length
-          ? {
-              create: await Promise.all(
-                styles.map(async (name: string) => {
-                  const ts = await prisma.travelStyle.findUnique({ where: { name } });
-                  return ts ? { travelStyleId: ts.id } : null;
-                }).then((r) => r.filter(Boolean))
-              ),
-            }
-          : undefined,
+        styles: styleIds.length ? { create: styleIds } : undefined,
       },
       include: {
         user: { select: { id: true, name: true, image: true } },
@@ -78,7 +79,8 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(trip, { status: 201 });
-  } catch {
+  } catch (err) {
+    console.error(err);
     return NextResponse.json({ error: "Failed to create trip" }, { status: 500 });
   }
 }
