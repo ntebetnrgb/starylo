@@ -16,3 +16,8 @@ export const FloatingCards3D = dynamic(
   () => import("./FloatingCard3D").then((m) => m.FloatingCards3D),
   { ssr: false, loading: () => <div style={{ height: "220px" }} /> }
 );
+
+export const OceanHero = dynamic(
+  () => import("./OceanHero").then((m) => m.OceanHero),
+  { ssr: false, loading: () => null }
+);
