@@ -56,3 +56,5 @@ prisma/*.db
 .vercel
 *.db
 dev.db
+
+.env*.local
