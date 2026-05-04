@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap");
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════
@@ -98,6 +98,33 @@ body::before {
 @keyframes wave-scroll {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
+}
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-33.333%); }
+}
+
+/* Playfair display class */
+.font-playfair { font-family: "Playfair Display", Georgia, serif; }
+
+/* Section label utility */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.section-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  max-width: 80px;
+}
+
+/* Cursor hide on touch */
+@media (hover: none) {
+  .cursor-ring, .cursor-dot { display: none !important; }
 }
 @keyframes glow-pulse {
   0%, 100% { opacity: 0.6; transform: scale(1); }
