@@ -5,19 +5,31 @@ export default function GuidesPage() {
   return (
     <>
       <Navbar />
-      <main
-        className="min-h-screen pt-24 pb-16 px-4"
-        style={{ background: "var(--night)" }}
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-10">
-            <p className="text-xs tracking-widest uppercase mb-2" style={{ color: "var(--ember)" }}>
+      <main style={{ background: "var(--bg)", minHeight: "100vh", paddingTop: "96px", paddingBottom: "80px" }}>
+        <div style={{
+          position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
+          width: "600px", height: "300px",
+          background: "radial-gradient(ellipse, rgba(16,185,129,0.1) 0%, transparent 70%)",
+          pointerEvents: "none",
+        }} />
+
+        <div className="container px-6">
+          <div className="mb-12">
+            <p className="text-xs tracking-widest uppercase mb-3 font-semibold" style={{ color: "var(--green)" }}>
               Verified locals
             </p>
-            <h1 className="font-serif text-4xl md:text-5xl" style={{ color: "var(--white)" }}>
-              Local guides
+            <h1 style={{
+              fontFamily: "Playfair Display, Georgia, serif",
+              fontSize: "clamp(32px, 5vw, 56px)",
+              fontWeight: 800,
+              fontStyle: "italic",
+              color: "var(--white)",
+              lineHeight: 1.1,
+              marginBottom: "8px",
+            }}>
+              Local <span className="text-gradient">guides</span>
             </h1>
-            <p className="mt-2 text-sm" style={{ color: "var(--mist)" }}>
+            <p className="text-sm" style={{ color: "var(--muted)" }}>
               Handpicked experts who live, breathe and love their city.
             </p>
           </div>
